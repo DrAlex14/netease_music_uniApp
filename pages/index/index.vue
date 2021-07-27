@@ -8,15 +8,13 @@
 					<input type="text" placeholder="搜索歌曲" />
 				</view>
 				<view class="index-list">
-					<view class="index-list-item">
+					<view class="index-list-item" v-for="item in topListData" :key="id">
 						<view class="item-img">
-							<image src="../../static/logo.png" mode=""></image>
-							<text>每天更新</text>
+							<image :src="item.coverImgUrl"></image>
+							<text>{{item.updateFrequency}}</text>
 						</view>
 						<view class="item-right">
-							<view>稻香——周杰伦</view>
-							<view>稻香——周杰伦</view>
-							<view>稻香——周杰伦</view>
+							<view v-for="(i,index) in item.tracks" :key="index">{{index+1}}.{{i.first}}——{{i.second}}</view>
 						</view>
 					</view>
 				</view>
@@ -28,17 +26,21 @@
 <script>
 	import '@/common/iconfont.css'
 	import musichead from '@/components/music-head'
+	import {topList} from '../../common/api.js'
 	export default {
 		components:{
 			musichead:musichead
 		},
 		data() {
 			return {
-				title: '网易云音乐'
+				title: '网易云音乐',
+				topListData:[]
 			}
 		},
 		onLoad() {
-
+			topList().then(res=>{
+				this.topListData = res
+			})
 		},
 		methods: {
 
@@ -92,8 +94,12 @@
 					.item-right{
 						flex: 3;
 						view{
+							width: 400rpx;
 							line-height: 66rpx;
-							font-size: 24rpx;							
+							font-size: 24rpx;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
 						}
 					}
 				}
