@@ -6,7 +6,13 @@
 				"navigationStyle": "custom"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/list/list",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "网易云音乐",

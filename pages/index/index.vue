@@ -14,7 +14,7 @@
 							<text>{{item.updateFrequency}}</text>
 						</view>
 						<view class="item-right">
-							<view v-for="(i,index) in item.tracks" :key="index">{{index+1}}.{{i.first}}——{{i.second}}</view>
+							<view @tap="handleTapMusic()" v-for="(i,index) in item.tracks" :key="index">{{index+1}}.{{i.first}}——{{i.second}}</view>
 						</view>
 					</view>
 				</view>
@@ -43,7 +43,13 @@
 			})
 		},
 		methods: {
-
+			handleTapMusic(){
+				debugger
+				console.log("handleTabMusic");
+				uni.navigateTo({
+					url:'../list/list'
+				})
+			},
 		}
 	}
 </script>
@@ -60,7 +66,7 @@
 				align-items: center;
 				.iconfont{
 					line-height: 70rpx;
-					margin-left: 28]rpx;
+					margin-left: 28rpx;
 				}
 				input{
 					margin-left: 25rpx;
