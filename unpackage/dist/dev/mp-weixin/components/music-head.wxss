@@ -23,4 +23,7 @@
   -webkit-justify-content: space-evenly;
           justify-content: space-evenly;
 }
+.music-head text.data-v-1a5fa403 {
+  color: #000000;
+}
 
