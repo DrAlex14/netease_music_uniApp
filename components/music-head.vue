@@ -1,10 +1,10 @@
 <template>
-	<view class="music-head" style="background-color: #ff557f;">
+	<view class="music-head">
 		<view v-if="icon" class="music-head-icon">
-			<text class="iconfont icon-zuojiantou" @tap="handleToBack()"></text>|
-			<text class="iconfont icon-shouye1" @tap="handleToHome()"></text>
+			<text :style="{'color':color}" class="iconfont icon-zuojiantou" @tap="handleToBack()"></text>|
+			<text :style="{'color':color}" class="iconfont icon-shouye1" @tap="handleToHome()"></text>
 		</view>
-		<text>{{title}}</text>
+		<text :style="{'color':color}">{{title}}</text>
 	</view>
 </template>
 
@@ -18,6 +18,10 @@
 			icon:{
 				type:Boolean,
 				default:true
+			},
+			color:{
+				type:String,
+				default:'black'
 			}
 		},
 		data() {
@@ -58,6 +62,9 @@
 			border-radius: 15px;
 			display: flex;
 			justify-content: space-evenly;
+		}
+		text{
+			color: #000000;
 		}
 	}
 </style>
