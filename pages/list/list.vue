@@ -8,14 +8,21 @@
 <script>
 	import '@/common/iconfont.css'
 	import musichead from '@/components/music-head'
+	import {playListDetail} from '@/common/api.js'
 	export default {
 		components:{
 			musichead:musichead
 		},
 		data() {
 			return {
+				musicList:[],
 				
 			};
+		},
+		onLoad(options){
+			playListDetail(options.listId).then(res=>{
+				this.musicList = res.data
+			})
 		}
 	}
 </script>

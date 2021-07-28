@@ -13,3 +13,15 @@ export function topList(){
 		})
 	})
 }
+
+export function playListDetail(idx){
+	return new Promise((resolve,reject)=>{
+		uni.request({
+			method:'GET',
+			url:`${baseUrl}/playlist/detail?id=`+idx,
+			success: (res) => {
+				resolve(res)
+			}
+		})
+	})
+}

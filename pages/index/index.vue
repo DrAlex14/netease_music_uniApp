@@ -8,13 +8,13 @@
 					<input type="text" placeholder="搜索歌曲" />
 				</view>
 				<view class="index-list">
-					<view class="index-list-item" v-for="item in topListData" :key="id">
+					<view class="index-list-item" v-for="item in topListData" :key="item.id" @tap="handleToList(item.id)">
 						<view class="item-img">
 							<image :src="item.coverImgUrl"></image>
 							<text>{{item.updateFrequency}}</text>
 						</view>
 						<view class="item-right">
-							<view @tap="handleTapMusic()" v-for="(i,index) in item.tracks" :key="index">{{index+1}}.{{i.first}}——{{i.second}}</view>
+							<view v-for="(i,index) in item.tracks" :key="index">{{index+1}}.{{i.first}}——{{i.second}}</view>
 						</view>
 					</view>
 				</view>
@@ -43,11 +43,11 @@
 			})
 		},
 		methods: {
-			handleTapMusic(){
+			handleToList(listId){
 				debugger
-				console.log("handleTabMusic");
+				console.log(listId);
 				uni.navigateTo({
-					url:'../list/list'
+					url:'/pages/list/list?listId='+listId
 				})
 			},
 		}
