@@ -2,19 +2,19 @@
 	<view class="list">
 		<view class="fixbg" :style="{'background-image': 'url('+musicList.playlist.coverImgUrl+')'}"></view>
 		<musichead :title="musicList.playlist.name" color="#ffffff"></musichead>
-		<view class="container">
+		<view v-show="!isLoading" class="container">
 			<scroll-view scroll-y="true" >
 				<view class="list-head">
 					<view class="list-head-img">
-						<image src="../../static/logo.png" mode="">
-							<text class="iconfont icon-bofang2">30亿</text>
+						<image :src="musicList.playlist.coverImgUrl" mode="">
+							<text class="iconfont icon-bofang2">{{musicList.playlist.playCount | countFormat}}</text>
 						</image>
 					</view>
 					<view class="list-head-text">
 						<view>{{musicList.playlist.name}}</view>
 						<view>
-							<image src="../../static/logo.png" mode=""></image>
-							<view class="">网易云音乐</view>
+							<image :src="musicList.playlist.creator.avatarUrl" mode=""></image>
+							<view class="">{{musicList.playlist.creator.nickname}}</view>
 						</view>
 						<view>{{musicList.playlist.description}}</view>
 					</view>
@@ -34,11 +34,11 @@
 						<view class="item-top">{{index+1}}</view>
 						<view class="item-song">
 							<view class="song-name">{{item.name}}</view>
-							<image src="../../static/dujia.png" mode="widthFix"></image>
-							<image src="../../static/sq.png" mode="widthFix"></image>
-							阿冗 — 与我无关
+							<image v-if="musicList.privileges[index].flag>60 && musicList.privileges[index].flag<70" src="../../static/dujia.png" mode="widthFix"></image>
+							<image v-if="musicList.privileges[index].maxbr === 999000" src="../../static/sq.png" mode="widthFix"></image>
+							{{item.ar[0].name}}—{{item.name}}
 						</view>
-						<text class="iconfont icon-bofang3" @tap="handlePlayMusic()"></text>
+						<text class="iconfont icon-bofang3" @tap="handlePlayMusic(item.id)"></text>
 					</view>
 				</view>
 			</scroll-view>
@@ -57,16 +57,28 @@
 		data() {
 			return {
 				musicList:{},
+				isLoading:true,      //加载标志
 			};
 		},
 		methods:{
-			handlePlayMusic(){
+			handlePlayMusic(songId){
 				debugger
+				uni.navigateTo({
+					url:'../detail/detail?songId='+songId
+				})
 			}
 		},
 		onLoad(options){
+			uni.showLoading({
+				title:'加载中...'
+			})
 			playListDetail(options.listId).then(res=>{
 				this.musicList = res.data
+				let _this = this
+				setTimeout(function() {            //延时显示
+					_this.isLoading = false
+					uni.hideLoading()
+				}, 500);
 			})
 		}
 	}
@@ -151,7 +163,7 @@
 				background-color: #fff;
 				border-radius: 50rpx;
 				height: 100%;
-				overflow: hidden;
+				overflow: auto;
 				margin-top: 20rpx;
 				.list-music-head{
 					margin: 20rpx 0 20rpx 30rpx;
@@ -173,20 +185,26 @@
 					display: flex;
 					.item-top{
 						flex: 1;
-						font-size: 36rpx;
+						font-size: 26rpx;
 						line-height: 84rpx;
 						text-align: center;
 					}
 					.item-song{
 						flex: 5;
 						color: #999999;
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
 						.song-name{
+							overflow: hidden;
+							white-space: nowrap;
+							text-overflow: ellipsis;
 							color: #000000;
-							font-size: 40rpx;
+							font-size: 30rpx;
 						}
 						image{
 							width: 40rpx;
-							margin-right: 5rpx;
+							margin-right: 10rpx;
 						}
 					}
 					text{

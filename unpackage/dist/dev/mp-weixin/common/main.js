@@ -12,6 +12,17 @@ var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 5));function 
 _vue.default.config.productionTip = false;
 
 _App.default.mpType = 'app';
+_vue.default.filter('countFormat', function (value) {
+  if (value >= 10000 && value < 100000000) {
+    value /= 10000;
+    return value.toFixed(1) + '万';
+  } else if (value >= 100000000) {
+    value /= 100000000;
+    return value.toFixed(1) + '亿';
+  } else {
+    return value;
+  }
+});
 
 var app = new _vue.default(_objectSpread({},
 _App.default));

@@ -97,6 +97,16 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var f0 = _vm._f("countFormat")(_vm.musicList.playlist.playCount)
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        f0: f0
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -130,7 +140,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -229,7 +239,10 @@ var _api = __webpack_require__(/*! @/common/api.js */ 18); //
 //
 //
 //
-var musichead = function musichead() {__webpack_require__.e(/*! require.ensure | components/music-head */ "components/music-head").then((function () {return resolve(__webpack_require__(/*! @/components/music-head */ 30));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { musichead: musichead }, data: function data() {return { musicList: {} };}, methods: { handlePlayMusic: function handlePlayMusic() {debugger;} }, onLoad: function onLoad(options) {var _this = this;(0, _api.playListDetail)(options.listId).then(function (res) {_this.musicList = res.data;});} };exports.default = _default;
+var musichead = function musichead() {__webpack_require__.e(/*! require.ensure | components/music-head */ "components/music-head").then((function () {return resolve(__webpack_require__(/*! @/components/music-head */ 30));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { musichead: musichead }, data: function data() {return { musicList: {}, isLoading: true //加载标志
+    };}, methods: { handlePlayMusic: function handlePlayMusic(songId) {debugger;uni.navigateTo({ url: '../detail/detail?songId=' + songId });} }, onLoad: function onLoad(options) {var _this2 = this;uni.showLoading({ title: '加载中...' });(0, _api.playListDetail)(options.listId).then(function (res) {_this2.musicList = res.data;var _this = _this2;setTimeout(function () {//延时显示
+        _this.isLoading = false;uni.hideLoading();}, 500);});} };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
