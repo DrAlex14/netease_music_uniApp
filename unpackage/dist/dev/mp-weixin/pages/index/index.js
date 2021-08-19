@@ -188,7 +188,7 @@ var _api = __webpack_require__(/*! ../../common/api.js */ 18); //
 //
 //
 //
-var musichead = function musichead() {__webpack_require__.e(/*! require.ensure | components/music-head */ "components/music-head").then((function () {return resolve(__webpack_require__(/*! @/components/music-head */ 30));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { musichead: musichead }, data: function data() {return { title: '网易云音乐', topListData: [] };}, onLoad: function onLoad() {var _this = this;(0, _api.topList)().then(function (res) {_this.topListData = res;});}, methods: { handleToList: function handleToList(listId) {debugger;console.log(listId);uni.navigateTo({ url: '/pages/list/list?listId=' + listId });} } };exports.default = _default;
+var musichead = function musichead() {__webpack_require__.e(/*! require.ensure | components/music-head */ "components/music-head").then((function () {return resolve(__webpack_require__(/*! @/components/music-head */ 38));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { musichead: musichead }, data: function data() {return { title: '网易云音乐', topListData: [] };}, onLoad: function onLoad() {var _this = this;(0, _api.topList)().then(function (res) {_this.topListData = res;});}, methods: { handleToList: function handleToList(listId) {debugger;console.log(listId);uni.navigateTo({ url: '/pages/list/list?listId=' + listId });} } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

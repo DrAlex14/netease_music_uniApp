@@ -8166,7 +8166,7 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.topList = topList;exports.playListDetail = playListDetail;var _config = __webpack_require__(/*! ./config.js */ 19);
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.topList = topList;exports.playListDetail = playListDetail;exports.songDetail = songDetail;exports.simiSong = simiSong;exports.songLyric = songLyric;exports.songComment = songComment;exports.songUrl = songUrl;var _config = __webpack_require__(/*! ./config.js */ 19);
 
 function topList() {
   return new Promise(function (resolve, reject) {
@@ -8192,6 +8192,50 @@ function playListDetail(idx) {
       } });
 
   });
+}
+
+function songDetail(songId) {
+  return uni.request({
+    method: 'GET',
+    url: "".concat(_config.baseUrl, "/song/detail?ids=").concat(songId) });
+
+}
+
+function simiSong(songId) {//相似歌曲
+  return uni.request({
+    method: 'GET',
+    url: "".concat(_config.baseUrl, "/simi/song?id=").concat(songId) });
+
+}
+
+function songLyric(songId) {//歌词
+  return uni.request({
+    method: 'GET',
+    url: "".concat(_config.baseUrl, "/lyric?id=").concat(songId),
+    success: function success(res) {
+      return res;
+    } });
+
+}
+
+function songComment(songId) {//评论
+  return uni.request({
+    method: 'GET',
+    url: "".concat(_config.baseUrl, "/comment/music?id=").concat(songId),
+    success: function success(res) {
+      resolve(res);
+    } });
+
+}
+
+function songUrl(songId) {//歌曲
+  return uni.request({
+    method: 'GET',
+    url: "".concat(_config.baseUrl, "/song/url?id=").concat(songId),
+    success: function success(res) {
+      resolve(res);
+    } });
+
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
