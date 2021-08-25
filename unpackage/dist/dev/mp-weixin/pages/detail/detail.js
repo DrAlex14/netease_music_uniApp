@@ -257,7 +257,7 @@ var _api = __webpack_require__(/*! @/common/api.js */ 18); //
 //
 //
 //
-var musichead = function musichead() {__webpack_require__.e(/*! require.ensure | components/music-head */ "components/music-head").then((function () {return resolve(__webpack_require__(/*! @/components/music-head */ 38));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { musichead: musichead }, data: function data() {return { isLoading: false };}, onLoad: function onLoad(options) {var songId = options.songId;this.initMusic(songId);}, methods: { initMusic: function initMusic(songId) {debugger;Promise.all([(0, _api.songDetail)(songId)]).then(function (res) {console.log(res);});} } };exports.default = _default;
+var musichead = function musichead() {__webpack_require__.e(/*! require.ensure | components/music-head */ "components/music-head").then((function () {return resolve(__webpack_require__(/*! @/components/music-head */ 38));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { musichead: musichead }, data: function data() {return { isLoading: false, songDetail: {} };}, onLoad: function onLoad(options) {var songId = options.songId;this.initMusic(songId);}, methods: { initMusic: function initMusic(songId) {var _this = this;Promise.all([(0, _api.songDetail)(songId)]).then(function (res) {console.log(res);_this.songDetail = res[0][1].data.songs[0];});} } };exports.default = _default;
 
 /***/ }),
 

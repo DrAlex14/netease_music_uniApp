@@ -160,7 +160,6 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-image: url('https://p1.music.126.net/DrRIg6CrgDfVLEph9SNh7w==/18696095720518497.jpg');
   background-size: cover;
   background-position: center 0;
   -webkit-filter: blur(20px);

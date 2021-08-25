@@ -1,11 +1,11 @@
 <template>
 	<view class="detail">
-		<view class="fixbg"></view>
-		<musichead title="播放歌曲" color="#ffffff" :icon="true"></musichead>
+		<view class="fixbg" :style="{'background-image':'url('+songDetail.al.picUrl+')'}"></view>
+		<musichead :title="songDetail.name" color="#ffffff" :icon="true"></musichead>
 		<view class="container" v-show="!isLoading">
 			<scroll-view scroll-y="true">
 				<view class="detail-play">
-					<image src="../../static/logo.png" mode="widthFix"></image>
+					<image :src="songDetail.al.picUrl" mode="widthFix"></image>
 					<text class="iconfont icon-bofang1"></text>
 					<view class=""></view>
 				</view>
@@ -70,7 +70,8 @@
 		},
 		data() {
 			return {
-				isLoading:false
+				isLoading:false,
+				songDetail: {}
 			};
 		},
 		onLoad(options) {
@@ -79,9 +80,9 @@
 		},
 		methods:{
 			initMusic(songId){
-				debugger;
 				Promise.all([songDetail(songId)]).then(res=>{
 					console.log(res)
+					this.songDetail = res[0][1].data.songs[0]
 				})
 			}
 		}
@@ -96,7 +97,6 @@
 			position: fixed;
 			top: 0;
 			left: 0;
-			background-image: url('https://p1.music.126.net/DrRIg6CrgDfVLEph9SNh7w==/18696095720518497.jpg');
 			background-size: cover;
 			background-position: center 0;
 			filter: blur(20px);
