@@ -5,52 +5,50 @@
 		<view class="container" v-show="!isLoading">
 			<scroll-view scroll-y="true">
 				<view class="detail-play">
-					<image :src="songDetail.al.picUrl" mode="widthFix"></image>
-					<text class="iconfont icon-bofang1"></text>
-					<view class=""></view>
+					<image :src="songDetail.al.picUrl" mode="widthFix" :class="{'detail-play-run': playType}"></image>
+					<text class="iconfont" :class="playType?'icon-zanting1':'icon-bofang'" @click="handlePlay"></text>
+					<view :class="playType?'needlePlay':'needlePause'"></view>
 				</view>
 				<view class="detail-lyric">
 					<view class="detail-lyric-wrap">
-						<view class="detaill-lyric-item">歌词歌词歌词歌词</view>
-						<view class="detaill-lyric-item active">歌词歌词歌词歌词</view>
-						<view class="detaill-lyric-item">歌词歌词歌词歌词歌词歌词歌词歌词</view>
+						<view class="detaill-lyric-item" :class="{active: lyricIndex == index}" v-for="(item,index) in songLyric" :key="index">{{item.lyric}}</view>
 					</view>
 				</view>
 				<view class="detail-like">
 					<view class="detail-like-head">
 						喜欢这首歌的人也听
 					</view>
-					<view class="detail-like-item" v-for="index in 4">
+					<view class="detail-like-item" v-for="(item,index) in simiSong" :key="index">
 						<view class="detail-like-img">
-							<image src="../../static/wangyiyunyinyue.png"></image>
+							<image :src="item.album.blurPicUrl" ></image>
 						</view>
 						<view class="detail-like-song">
-							<view style="font-size: 36rpx;">蓝</view>
-							<image src="../../static/dujia.png" mode="widthFix"></image>
-							<image src="../../static/sq.png" mode="widthFix"></image>
-							<text style="color: #c6c2bf;font-size: 28rpx;">石白其 - 蓝</text>
+							<view style="font-size: 36rpx;">{{item.name}}</view>
+							<image v-if="item.privilege.flag>60 && item.privilege.flag<70" src="../../static/dujia.png" mode="widthFix"></image>
+							<image v-if="item.privilege.maxbr == 999000" src="../../static/sq.png" mode="widthFix"></image>
+							<text style="color: #c6c2bf;font-size: 28rpx;">{{item.album.artists[0].name}} - {{item.name}}</text>
 						</view>
 						<text class="iconfont icon-bofang3"></text>
 					</view>
 				</view>
 				<view class="detail-comment">
 					<view class="detail-comment-head">精彩评论</view>
-					<view class="detail-comment-item" v-for="index in 4">
+					<view class="detail-comment-item" v-for="(item,index) in songComment">
 						<view class="detail-comment-img">
-							<image src="../../static/wangyiyunyinyue.png" mode=""></image>
+							<image :src="item.user.avatarUrl" mode=""></image>
 						</view>
 						<view class="detail-comment-content">
 							<view class="detail-comment-title">
 								<view class="detail-comment-name">
-									<view class="">是阿荣的荣</view>
-									<view class="">2020年1月21日</view>
+									<view class="">{{item.user.nickname}}</view>
+									<view class="">{{item.time | timeFormat}}</view>
 								</view>
 								<view class="detail-comment-like">
-									55027<text class="iconfont icon-dianzan"></text>
+									{{item.likedCount | countFormat}}<text class="iconfont icon-dianzan"></text>
 								</view>
 							</view>
 							<view class="detail-comment-text">
-								测试文字测试文字测试文字测试文字测试文字测试文字
+								{{item.content}}
 							</view>
 						</view>
 					</view>
@@ -71,7 +69,16 @@
 		data() {
 			return {
 				isLoading:false,
-				songDetail: {}
+				songDetail: {
+					al:{
+						picUrl:''
+					}
+				},
+				simiSong: [],
+				songComment:[],
+				songLyric: [],
+				lyricIndex: 0,
+				playType: true,
 			};
 		},
 		onLoad(options) {
@@ -80,10 +87,45 @@
 		},
 		methods:{
 			initMusic(songId){
-				Promise.all([songDetail(songId)]).then(res=>{
-					console.log(res)
-					this.songDetail = res[0][1].data.songs[0]
+				Promise.all([songDetail(songId), simiSong(songId), songComment(songId), songLyric(songId), songUrl(songId)]).then(res=>{
+					console.log(res);
+					if(res[0][1].data.code == '200'){      //当前播放歌曲
+						this.songDetail = res[0][1].data.songs[0];
+					}
+					if(res[1][1].data.code == '200'){      //相似歌曲
+						this.simiSong = res[1][1].data.songs;
+					}
+					if(res[2][1].data.code == '200'){      //精彩评论
+						this.songComment = res[2][1].data.hotComments;
+					}
+					if(res[3][1].data.code == '200'){      //歌词
+						let lyric = res[3][1].data.lrc.lyric;
+						let re = /\[([^\]]+)\]([^\[]+)/g;
+						var result = []
+						lyric.replace(re,($0,$1,$2)=>{
+							result.push({"time":this.formatTimeToSec($1),"lyric":$2});
+						})
+						this.songLyric = result;
+					}
+					if(res[4][1].data.code == '200'){       //歌曲链接
+						this.bgAudilManager = uni.getBackgroundAudioManager();
+						this.bgAudilManager.title = this.songDetail.name;
+						this.bgAudilManager.url = res[4][1].data.data[0].url;
+						console.log(this.bgAudilManager)
+					}
 				})
+			},
+			formatTimeToSec(time){
+				let arr = time.split(':');
+				return Number((Number(arr[0]) * 60 + Number(arr[1])).toFixed(1));
+			},
+			handlePlay(songId){
+				this.playType = !this.playType
+				if(this.playType == false){
+					this.bgAudilManager.pause();
+				}else{
+					this.bgAudilManager.play();
+				}
 			}
 		}
 	}
@@ -121,12 +163,22 @@
 					right: 0;
 					margin: auto;
 					border-radius: 50%;
+					animation: 10s linear playMove infinite;
+					animation-play-state: paused;
+				}
+				.detail-play-run{
+					animation-play-state: running;
+				}
+				@keyframes playMove
+				{
+					from {transform: rotate(0);}
+					to {transform: rotate(360deg);}
 				}
 				text{
 					width: 100rpx;
 					height: 100rpx;
 					font-size: 100rpx;
-					color: #000000;
+					color: #555555;
 					position: absolute;
 					left: 0;
 					top: 0;
@@ -147,9 +199,21 @@
 					margin: auto;
 					transform: rotate(-20deg);
 					transform-origin:top left;
-					animation: needleRotate 0.5s linear;;
 				}
-				@keyframes needleRotate
+				.needlePause{
+					transform: rotate(-20deg);
+					animation: needleRotatePause 1s linear;
+				}
+				.needlePlay{
+					transform: rotate(0);
+					animation: needleRotatePlay 1s linear;
+				}
+				@keyframes needleRotatePlay
+				{
+				  from {transform: rotate(-20deg);}
+				  to {transform: rotate(0);}
+				}
+				@keyframes needleRotatePause
 				{
 				  from {transform: rotate(0);}
 				  to {transform: rotate(-20deg);}
@@ -238,7 +302,7 @@
 							.detail-comment-name{
 								view:nth-child(1){
 									font-size: 26rpx;
-									color: #1a1a1a;
+									color: #016fff;
 								}
 								view:nth-child(2){
 									font-size: 20rpx;

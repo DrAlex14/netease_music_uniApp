@@ -23,6 +23,10 @@ _vue.default.filter('countFormat', function (value) {
     return value;
   }
 });
+_vue.default.filter('timeFormat', function (value) {
+  var date = new Date(value);
+  return date.getFullYear() + '年' + date.getMonth() + '月' + date.getDay() + '日';
+});
 
 var app = new _vue.default(_objectSpread({},
 _App.default));

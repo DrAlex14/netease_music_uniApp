@@ -43,10 +43,7 @@ export function simiSong(songId){       //相似歌曲
 export function songLyric(songId){       //歌词
 	return	uni.request({
 			method:'GET',
-			url:`${baseUrl}/lyric?id=${songId}`,
-			success: (res) => {
-				return res
-			}
+			url:`${baseUrl}/lyric?id=${songId}`
 		})
 }
 
@@ -54,9 +51,6 @@ export function songComment(songId){       //评论
 	return uni.request({
 			method:'GET',
 			url:`${baseUrl}/comment/music?id=${songId}`,
-			success: (res) => {
-				resolve(res)
-			}
 		})
 }
 
@@ -64,9 +58,6 @@ export function songUrl(songId){       //歌曲
 	return uni.request({
 			method:'GET',
 			url:`${baseUrl}/song/url?id=${songId}`,
-			success: (res) => {
-				resolve(res)
-			}
 		})
 }
 

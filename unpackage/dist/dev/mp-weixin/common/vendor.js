@@ -8211,30 +8211,21 @@ function simiSong(songId) {//相似歌曲
 function songLyric(songId) {//歌词
   return uni.request({
     method: 'GET',
-    url: "".concat(_config.baseUrl, "/lyric?id=").concat(songId),
-    success: function success(res) {
-      return res;
-    } });
+    url: "".concat(_config.baseUrl, "/lyric?id=").concat(songId) });
 
 }
 
 function songComment(songId) {//评论
   return uni.request({
     method: 'GET',
-    url: "".concat(_config.baseUrl, "/comment/music?id=").concat(songId),
-    success: function success(res) {
-      resolve(res);
-    } });
+    url: "".concat(_config.baseUrl, "/comment/music?id=").concat(songId) });
 
 }
 
 function songUrl(songId) {//歌曲
   return uni.request({
     method: 'GET',
-    url: "".concat(_config.baseUrl, "/song/url?id=").concat(songId),
-    success: function success(res) {
-      resolve(res);
-    } });
+    url: "".concat(_config.baseUrl, "/song/url?id=").concat(songId) });
 
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

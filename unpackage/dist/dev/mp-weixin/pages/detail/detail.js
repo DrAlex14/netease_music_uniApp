@@ -97,6 +97,28 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 = _vm.__map(_vm.songComment, function(item, index) {
+    var $orig = _vm.__get_orig(item)
+
+    var f0 = _vm._f("timeFormat")(item.time)
+
+    var f1 = _vm._f("countFormat")(item.likedCount)
+
+    return {
+      $orig: $orig,
+      f0: f0,
+      f1: f1
+    }
+  })
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -130,9 +152,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -255,9 +275,13 @@ var _api = __webpack_require__(/*! @/common/api.js */ 18); //
 //
 //
 //
-//
-//
-var musichead = function musichead() {__webpack_require__.e(/*! require.ensure | components/music-head */ "components/music-head").then((function () {return resolve(__webpack_require__(/*! @/components/music-head */ 38));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { musichead: musichead }, data: function data() {return { isLoading: false, songDetail: {} };}, onLoad: function onLoad(options) {var songId = options.songId;this.initMusic(songId);}, methods: { initMusic: function initMusic(songId) {var _this = this;Promise.all([(0, _api.songDetail)(songId)]).then(function (res) {console.log(res);_this.songDetail = res[0][1].data.songs[0];});} } };exports.default = _default;
+var musichead = function musichead() {__webpack_require__.e(/*! require.ensure | components/music-head */ "components/music-head").then((function () {return resolve(__webpack_require__(/*! @/components/music-head */ 38));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { musichead: musichead }, data: function data() {return { isLoading: false, songDetail: { al: { picUrl: '' } }, simiSong: [], songComment: [], songLyric: [], lyricIndex: 0, playType: true };}, onLoad: function onLoad(options) {var songId = options.songId;this.initMusic(songId);}, methods: { initMusic: function initMusic(songId) {var _this = this;Promise.all([(0, _api.songDetail)(songId), (0, _api.simiSong)(songId), (0, _api.songComment)(songId), (0, _api.songLyric)(songId), (0, _api.songUrl)(songId)]).then(function (res) {console.log(res);if (res[0][1].data.code == '200') {//当前播放歌曲
+          _this.songDetail = res[0][1].data.songs[0];}if (res[1][1].data.code == '200') {//相似歌曲
+          _this.simiSong = res[1][1].data.songs;}if (res[2][1].data.code == '200') {//精彩评论
+          _this.songComment = res[2][1].data.hotComments;}if (res[3][1].data.code == '200') {//歌词
+          var lyric = res[3][1].data.lrc.lyric;var re = /\[([^\]]+)\]([^\[]+)/g;var result = [];lyric.replace(re, function ($0, $1, $2) {result.push({ "time": _this.formatTimeToSec($1), "lyric": $2 });});_this.songLyric = result;}if (res[4][1].data.code == '200') {//歌曲链接
+          _this.bgAudilManager = uni.getBackgroundAudioManager();_this.bgAudilManager.title = _this.songDetail.name;_this.bgAudilManager.url = res[4][1].data.data[0].url;console.log(_this.bgAudilManager);}});}, formatTimeToSec: function formatTimeToSec(time) {var arr = time.split(':');return Number((Number(arr[0]) * 60 + Number(arr[1])).toFixed(1));}, handlePlay: function handlePlay(songId) {this.playType = !this.playType;if (this.playType == false) {this.bgAudilManager.pause();} else {this.bgAudilManager.play();}} } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

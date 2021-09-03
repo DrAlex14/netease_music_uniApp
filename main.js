@@ -14,6 +14,10 @@ Vue.filter('countFormat',function(value){
 		return value
 	}
 })
+Vue.filter('timeFormat',function(value){
+	let date = new Date(value);
+	return date.getFullYear() + '年' + date.getMonth() + '月' +date.getDay() + '日';
+})
 
 const app = new Vue({
     ...App

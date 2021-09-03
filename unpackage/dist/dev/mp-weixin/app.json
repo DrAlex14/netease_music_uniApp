@@ -11,5 +11,8 @@
     "navigationBarBackgroundColor": "#c70000",
     "backgroundColor": "#F8F8F8"
   },
+  "requiredBackgroundModes": [
+    "audio"
+  ],
   "usingComponents": {}
 }
