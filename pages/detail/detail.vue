@@ -10,7 +10,7 @@
 					<view :class="playType?'needlePlay':'needlePause'"></view>
 				</view>
 				<view class="detail-lyric">
-					<view class="detail-lyric-wrap">
+					<view class="detail-lyric-wrap" :style="{ transform: 'translateY('+ -(lyricIndex - 1) * 82 + 'rpx)' }">
 						<view class="detaill-lyric-item" :class="{active: lyricIndex == index}" v-for="(item,index) in songLyric" :key="index">{{item.lyric}}</view>
 					</view>
 				</view>
@@ -108,24 +108,42 @@
 						this.songLyric = result;
 					}
 					if(res[4][1].data.code == '200'){       //歌曲链接
-						this.bgAudilManager = uni.getBackgroundAudioManager();
-						this.bgAudilManager.title = this.songDetail.name;
-						this.bgAudilManager.url = res[4][1].data.data[0].url;
-						console.log(this.bgAudilManager)
+						this.bgAudioManager = uni.getBackgroundAudioManager();
+						this.bgAudioManager.title = this.songDetail.name;
+						this.bgAudioManager.url = res[4][1].data.data[0].url || '';
+						this.listenLyricIndex()
+						this.bgAudioManager.onPlay(() => {
+							this.listenLyricIndex()
+						})
 					}
 				})
 			},
-			formatTimeToSec(time){
+			formatTimeToSec(time) {
 				let arr = time.split(':');
 				return Number((Number(arr[0]) * 60 + Number(arr[1])).toFixed(1));
 			},
 			handlePlay(songId){
 				this.playType = !this.playType
 				if(this.playType == false){
-					this.bgAudilManager.pause();
+					this.bgAudioManager.pause();
 				}else{
-					this.bgAudilManager.play();
+					this.bgAudioManager.play();
 				}
+			},
+			listenLyricIndex() {
+				clearInterval(this.timer);
+				this.timer = setInterval(() => {
+					for(let i = 0; i < this.songLyric.length; i++) {
+						if(this.bgAudioManager.currentTime > this.songLyric[this.songLyric.length - 1 ].time) {
+							this.lyricIndex = this.songLyric.length - 1;
+							break;
+						}
+						if(this.bgAudioManager.currentTime > this.songLyric[i].time && this.bgAudioManager.currentTime < this.songLyric[i+1].time) {
+							this.lyricIndex = i;
+						}
+					}
+					console.log(this.lyricIndex)
+				},500);
 			}
 		}
 	}
@@ -228,6 +246,7 @@
 				overflow: hidden;
 				color: #6f6e73;
 				.detail-lyric-wrap{
+					transition: .5s;
 					text-align: center;
 					.detail-lyric-item{
 						height: 82rpx;

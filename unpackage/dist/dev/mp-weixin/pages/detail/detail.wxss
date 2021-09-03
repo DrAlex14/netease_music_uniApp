@@ -307,6 +307,8 @@ to {
   color: #6f6e73;
 }
 .detail .container .detail-lyric .detail-lyric-wrap.data-v-3e159eb4 {
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
   text-align: center;
 }
 .detail .container .detail-lyric .detail-lyric-wrap .detail-lyric-item.data-v-3e159eb4 {
