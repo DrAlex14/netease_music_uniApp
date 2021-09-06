@@ -10,8 +10,8 @@
 					<view :class="playType?'needlePlay':'needlePause'"></view>
 				</view>
 				<view class="detail-lyric">
-					<view class="detail-lyric-wrap" :style="{ transform: 'translateY('+ -(lyricIndex - 1) * 82 + 'rpx)' }">
-						<view class="detaill-lyric-item" :class="{active: lyricIndex == index}" v-for="(item,index) in songLyric" :key="index">{{item.lyric}}</view>
+					<view class="detail-lyric-wrap" :style="{ transform: 'translateY('+ -(lyricIndex - 1) * 30 + 'rpx)' }">
+						<view class="detail-lyric-item" :class="{active: lyricIndex === index}" v-for="(item,index) in songLyric" :key="index">{{item.lyric}}</view>
 					</view>
 				</view>
 				<view class="detail-like">
@@ -28,7 +28,7 @@
 							<image v-if="item.privilege.maxbr == 999000" src="../../static/sq.png" mode="widthFix"></image>
 							<text style="color: #c6c2bf;font-size: 28rpx;">{{item.album.artists[0].name}} - {{item.name}}</text>
 						</view>
-						<text class="iconfont icon-bofang3"></text>
+						<text class="iconfont icon-bofang3" @click="handleLikeSongPlay(item)"></text>
 					</view>
 				</view>
 				<view class="detail-comment">
@@ -108,12 +108,20 @@
 						this.songLyric = result;
 					}
 					if(res[4][1].data.code == '200'){       //歌曲链接
+						// #ifdef H5
+						this.bgAudioManager = uni.createInnerAudioContext();
+						this.playType = false;
+						// #endif
+						// #ifdef MP-WEIXIN
 						this.bgAudioManager = uni.getBackgroundAudioManager();
 						this.bgAudioManager.title = this.songDetail.name;
-						this.bgAudioManager.url = res[4][1].data.data[0].url || '';
-						this.listenLyricIndex()
+						// #endif
+						
+						
+						this.bgAudioManager.src = res[4][1].data.data[0].url || '';
+						// this.listenLyricIndex()
 						this.bgAudioManager.onPlay(() => {
-							this.listenLyricIndex()
+							this.listenLyricIndex();
 						})
 					}
 				})
@@ -126,6 +134,7 @@
 				this.playType = !this.playType
 				if(this.playType == false){
 					this.bgAudioManager.pause();
+					clearInterval(this.timer);
 				}else{
 					this.bgAudioManager.play();
 				}
@@ -138,12 +147,17 @@
 							this.lyricIndex = this.songLyric.length - 1;
 							break;
 						}
-						if(this.bgAudioManager.currentTime > this.songLyric[i].time && this.bgAudioManager.currentTime < this.songLyric[i+1].time) {
+						if(this.bgAudioManager.currentTime + 1 > this.songLyric[i].time && this.bgAudioManager.currentTime < this.songLyric[i+1].time) {
 							this.lyricIndex = i;
 						}
 					}
 					console.log(this.lyricIndex)
 				},500);
+			},
+			handleLikeSongPlay(item) {
+				uni.navigateTo({
+					url:'../detail/detail?songId='+item.id
+				})
 			}
 		}
 	}
@@ -169,7 +183,7 @@
 				height: 580rpx;
 				background-image: url(~@/static/docs.png);
 				background-size: cover;
-				margin: 214rpx auto 0 auto;
+				margin: 100rpx auto 0 auto;
 				position: relative;
 				image{
 					width: 370rpx;
@@ -249,7 +263,9 @@
 					transition: .5s;
 					text-align: center;
 					.detail-lyric-item{
-						height: 82rpx;
+						// height: 82rpx;
+						line-height: 40rpx;
+						font-size: 30rpx;
 					}
 					.active{
 						color: white;

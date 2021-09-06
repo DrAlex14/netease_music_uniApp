@@ -280,7 +280,16 @@ var musichead = function musichead() {__webpack_require__.e(/*! require.ensure |
           _this.simiSong = res[1][1].data.songs;}if (res[2][1].data.code == '200') {//精彩评论
           _this.songComment = res[2][1].data.hotComments;}if (res[3][1].data.code == '200') {//歌词
           var lyric = res[3][1].data.lrc.lyric;var re = /\[([^\]]+)\]([^\[]+)/g;var result = [];lyric.replace(re, function ($0, $1, $2) {result.push({ "time": _this.formatTimeToSec($1), "lyric": $2 });});_this.songLyric = result;}if (res[4][1].data.code == '200') {//歌曲链接
-          _this.bgAudioManager = uni.getBackgroundAudioManager();_this.bgAudioManager.title = _this.songDetail.name;_this.bgAudioManager.url = res[4][1].data.data[0].url || '';_this.listenLyricIndex();_this.bgAudioManager.onPlay(function () {_this.listenLyricIndex();});}});}, formatTimeToSec: function formatTimeToSec(time) {var arr = time.split(':');return Number((Number(arr[0]) * 60 + Number(arr[1])).toFixed(1));}, handlePlay: function handlePlay(songId) {this.playType = !this.playType;if (this.playType == false) {this.bgAudioManager.pause();} else {
+          _this.bgAudioManager = uni.getBackgroundAudioManager();_this.bgAudioManager.title = _this.songDetail.name;_this.bgAudioManager.src = res[4][1].data.data[0].url || ''; // this.listenLyricIndex()
+          _this.bgAudioManager.onPlay(function () {_this.listenLyricIndex();});}});}, formatTimeToSec: function formatTimeToSec(time) {var arr = time.split(':');
+      return Number((Number(arr[0]) * 60 + Number(arr[1])).toFixed(1));
+    },
+    handlePlay: function handlePlay(songId) {
+      this.playType = !this.playType;
+      if (this.playType == false) {
+        this.bgAudioManager.pause();
+        clearInterval(this.timer);
+      } else {
         this.bgAudioManager.play();
       }
     },
@@ -292,12 +301,17 @@ var musichead = function musichead() {__webpack_require__.e(/*! require.ensure |
             _this2.lyricIndex = _this2.songLyric.length - 1;
             break;
           }
-          if (_this2.bgAudioManager.currentTime > _this2.songLyric[i].time && _this2.bgAudioManager.currentTime < _this2.songLyric[i + 1].time) {
+          if (_this2.bgAudioManager.currentTime + 1 > _this2.songLyric[i].time && _this2.bgAudioManager.currentTime < _this2.songLyric[i + 1].time) {
             _this2.lyricIndex = i;
           }
         }
         console.log(_this2.lyricIndex);
       }, 500);
+    },
+    handleLikeSongPlay: function handleLikeSongPlay(item) {
+      uni.navigateTo({
+        url: '../detail/detail?songId=' + item.id });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
