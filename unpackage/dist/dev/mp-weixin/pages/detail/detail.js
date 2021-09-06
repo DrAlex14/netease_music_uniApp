@@ -280,8 +280,8 @@ var musichead = function musichead() {__webpack_require__.e(/*! require.ensure |
           _this.simiSong = res[1][1].data.songs;}if (res[2][1].data.code == '200') {//精彩评论
           _this.songComment = res[2][1].data.hotComments;}if (res[3][1].data.code == '200') {//歌词
           var lyric = res[3][1].data.lrc.lyric;var re = /\[([^\]]+)\]([^\[]+)/g;var result = [];lyric.replace(re, function ($0, $1, $2) {result.push({ "time": _this.formatTimeToSec($1), "lyric": $2 });});_this.songLyric = result;}if (res[4][1].data.code == '200') {//歌曲链接
-          _this.bgAudioManager = uni.getBackgroundAudioManager();_this.bgAudioManager.title = _this.songDetail.name;_this.bgAudioManager.src = res[4][1].data.data[0].url || ''; // this.listenLyricIndex()
-          _this.bgAudioManager.onPlay(function () {_this.listenLyricIndex();});}});}, formatTimeToSec: function formatTimeToSec(time) {var arr = time.split(':');
+          _this.bgAudioManager = uni.getBackgroundAudioManager();_this.bgAudioManager.title = _this.songDetail.name;_this.bgAudioManager.src = res[4][1].data.data[0].url || '';_this.listenLyricIndex();_this.bgAudioManager.onPlay(function () {_this.listenLyricIndex();});}});}, formatTimeToSec: function formatTimeToSec(time) {
+      var arr = time.split(':');
       return Number((Number(arr[0]) * 60 + Number(arr[1])).toFixed(1));
     },
     handlePlay: function handlePlay(songId) {

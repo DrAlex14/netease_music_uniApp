@@ -310,13 +310,18 @@ to {
   -webkit-transition: 0.5s;
   transition: 0.5s;
   text-align: center;
+  line-height: 40rpx;
 }
 .detail .container .detail-lyric .detail-lyric-wrap .detail-lyric-item.data-v-3e159eb4 {
-  line-height: 40rpx;
   font-size: 30rpx;
 }
 .detail .container .detail-lyric .detail-lyric-wrap .active.data-v-3e159eb4 {
   color: white;
+}
+.detail .container .detail-lyric .detail-lyric-wrap .hide.data-v-3e159eb4 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .detail .container .detail-like.data-v-3e159eb4 {
   margin: 0 30rpx;

@@ -10,8 +10,8 @@
 					<view :class="playType?'needlePlay':'needlePause'"></view>
 				</view>
 				<view class="detail-lyric">
-					<view class="detail-lyric-wrap" :style="{ transform: 'translateY('+ -(lyricIndex - 1) * 30 + 'rpx)' }">
-						<view class="detail-lyric-item" :class="{active: lyricIndex === index}" v-for="(item,index) in songLyric" :key="index">{{item.lyric}}</view>
+					<view class="detail-lyric-wrap" :style="{ transform: 'translateY('+ -(lyricIndex - 1) * 36 + 'rpx)' }">
+						<view class="detail-lyric-item" :class="{active: lyricIndex === index, hide: index <= 3}" v-for="(item,index) in songLyric" :key="index">{{item.lyric}}</view>
 					</view>
 				</view>
 				<view class="detail-like">
@@ -119,7 +119,7 @@
 						
 						
 						this.bgAudioManager.src = res[4][1].data.data[0].url || '';
-						// this.listenLyricIndex()
+						this.listenLyricIndex()
 						this.bgAudioManager.onPlay(() => {
 							this.listenLyricIndex();
 						})
@@ -262,13 +262,18 @@
 				.detail-lyric-wrap{
 					transition: .5s;
 					text-align: center;
+					line-height: 40rpx;
 					.detail-lyric-item{
-						// height: 82rpx;
-						line-height: 40rpx;
+						// height: 40rpx;
 						font-size: 30rpx;
 					}
 					.active{
 						color: white;
+					}
+					.hide{
+						overflow: hidden;
+						text-overflow:ellipsis; 
+						white-space: nowrap;
 					}
 				}
 			}
