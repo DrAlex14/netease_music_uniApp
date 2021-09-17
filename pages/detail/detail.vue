@@ -85,10 +85,20 @@
 			const songId = options.songId;
 			this.initMusic(songId);
 		},
+		onUnload() {
+			// #ifdef H5
+			this.bgAudioManager.destroy();
+			// #endif
+		},
+		onHide() {
+			// #ifdef H5
+			this.bgAudioManager.destroy();
+			// #endif
+		},
 		methods:{
 			initMusic(songId){
+				this.$store.commit('NEXT_ID',songId);
 				Promise.all([songDetail(songId), simiSong(songId), songComment(songId), songLyric(songId), songUrl(songId)]).then(res=>{
-					console.log(res);
 					if(res[0][1].data.code == '200'){      //当前播放歌曲
 						this.songDetail = res[0][1].data.songs[0];
 					}
@@ -122,6 +132,10 @@
 						this.listenLyricIndex()
 						this.bgAudioManager.onPlay(() => {
 							this.listenLyricIndex();
+						})
+						this.bgAudioManager.onEnded(() => {
+							this.initMusic(this.$store.state.nextId)
+							console.log(this.$store.state.nextId)
 						})
 					}
 				})

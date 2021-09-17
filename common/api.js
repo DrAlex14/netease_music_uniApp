@@ -61,3 +61,16 @@ export function songUrl(songId){       //歌曲
 		})
 }
 
+export function search(keywords){ 	   //搜索
+	return new Promise((resolve, reject) => {
+		uni.request({
+			method:'GET',
+			url:`${baseUrl}/search?keywords=${keywords}`,
+			success: (res) => {
+				let result = res.data.result
+				resolve(result)
+			}
+		})
+	})
+}
+

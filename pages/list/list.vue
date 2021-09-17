@@ -75,6 +75,7 @@
 			playListDetail(options.listId).then(res=>{
 				this.musicList = res.data
 				let _this = this
+				this.$store.commit('INIT_TOPLISTIDS',res.data.playlist.trackIds)
 				setTimeout(function() {            //延时显示
 					_this.isLoading = false
 					uni.hideLoading()

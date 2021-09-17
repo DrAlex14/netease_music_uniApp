@@ -19,9 +19,9 @@
           "scene": null
         },
         {
-          "name": "pages/detail/detail",
-          "pathName": "pages/detail/detail",
-          "query": "songId=1857630559",
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "",
           "scene": null
         }
       ]

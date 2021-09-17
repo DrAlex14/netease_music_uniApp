@@ -1,0 +1,1 @@
+<view class="search"><musichead vue-id="50cad900-1" title="搜索" color="#000" icon="{{true}}" bind:__l="__l"></musichead><view>123</view></view>
