@@ -1,8 +1,8 @@
 <template>
 	<view class="music-head">
 		<view v-if="icon" class="music-head-icon">
-			<text :style="{'color':color}" class="iconfont icon-zuojiantou" @tap="handleToBack()"></text>|
-			<text :style="{'color':color}" class="iconfont icon-shouye1" @tap="handleToHome()"></text>
+			<text :style="{'color':'white'}" class="iconfont icon-zuojiantou" @tap="handleToBack()"></text>|
+			<text :style="{'color':'white'}" class="iconfont icon-shouye1" @tap="handleToHome()"></text>
 		</view>
 		<text :style="{'color':color}">{{title}}</text>
 	</view>

@@ -62,7 +62,6 @@
 		},
 		methods:{
 			handlePlayMusic(songId){
-				debugger
 				uni.navigateTo({
 					url:'../detail/detail?songId='+songId
 				})

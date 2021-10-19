@@ -3,9 +3,9 @@
 		<musichead title="网易云音乐" :icon="false"></musichead>
 		<view class="container">
 			<scroll-view scroll-y="true">
-				<view class="index-search">
-					<text class="iconfont icon-fangdajing" @click="handleSearch"></text>
-					<input type="text" placeholder="搜索歌曲" v-model="searchKeyWords" @confirm="handleSearch"/>
+				<view class="index-search" @click="handleSearch">
+					<text class="iconfont icon-fangdajing"></text>
+					<input type="text" placeholder="搜索歌曲"/>
 				</view>
 				<view class="index-list">
 					<view class="index-list-item" v-for="item in topListData" :key="item.id" @tap="handleToList(item.id)">
@@ -26,7 +26,7 @@
 <script>
 	import '@/common/iconfont.css'
 	import musichead from '@/components/music-head'
-	import {topList, search} from '../../common/api.js'
+	import {topList} from '../../common/api.js'
 	export default {
 		components:{
 			musichead:musichead
@@ -46,10 +46,6 @@
 			handleSearch(e){
 				uni.navigateTo({
 					url: "../search/search"
-				})
-				let keyWords = e.detail.value
-				search(keyWords).then(res=>{
-					console.log(res)
 				})
 			},
 			handleToList(listId){

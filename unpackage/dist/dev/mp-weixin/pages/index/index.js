@@ -190,11 +190,7 @@ var _api = __webpack_require__(/*! ../../common/api.js */ 20); //
 //
 //
 //
-var musichead = function musichead() {__webpack_require__.e(/*! require.ensure | components/music-head */ "components/music-head").then((function () {return resolve(__webpack_require__(/*! @/components/music-head */ 46));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { musichead: musichead }, data: function data() {return { title: '网易云音乐', topListData: [] };}, onLoad: function onLoad() {var _this = this;(0, _api.topList)().then(function (res) {_this.topListData = res;});}, methods: { handleSearch: function handleSearch(e) {uni.navigateTo({ url: "../search/search" });var keyWords = e.detail.value;(0, _api.search)(keyWords).then(function (res) {console.log(res);});},
-    handleToList: function handleToList(listId) {
-      debugger;
-      console.log(listId);
-      uni.navigateTo({
+var musichead = function musichead() {__webpack_require__.e(/*! require.ensure | components/music-head */ "components/music-head").then((function () {return resolve(__webpack_require__(/*! @/components/music-head */ 48));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { musichead: musichead }, data: function data() {return { title: '网易云音乐', topListData: [] };}, onLoad: function onLoad() {var _this = this;(0, _api.topList)().then(function (res) {_this.topListData = res;});}, methods: { handleSearch: function handleSearch(e) {uni.navigateTo({ url: "../search/search" });}, handleToList: function handleToList(listId) {debugger;console.log(listId);uni.navigateTo({
         url: '/pages/list/list?listId=' + listId });
 
     } } };exports.default = _default;
