@@ -3,7 +3,7 @@
 		<musichead title="搜索" :icon="true"></musichead>
 		<view class="search-bar">
 			<text class="iconfont icon-fangdajing" @click="handleSearch"></text>
-			<input type="text" placeholder="搜索歌曲" v-model="searchKeyWords" @confirm="handleSearch"/>
+			<input type="text" placeholder="搜索歌曲" v-model="searchKeyWords" @confirm="handleSearch" @input="handleInput"/>
 			<text class="iconfont icon-guanbi" style="float: right;" @click="handleReSet"></text>
 		</view>
 		<view class="search-history">
@@ -12,10 +12,15 @@
 				<text class="iconfont icon-lajitong" @click="handleClear"/>
 			</view>
 			<view class="search-history-main">
-				<scroll-view scroll-y="true">
-					
-				</scroll-view>				
+				<text v-for="(i,key) in searchHistory" :key="key">{{i}}</text>
 			</view>
+		</view>
+		<view class="search-result">
+			<scroll-view scroll-y="true">
+				<view v-for="(item,index) in searchRes" :key="index">
+					<view class="">{{item.name}}-{{item.artists[0].name}}</view>
+				</view>
+			</scroll-view>							
 		</view>
 	</view>
 </template>
@@ -23,28 +28,36 @@
 <script>
 	import '@/common/iconfont.css'
 	import musichead from '@/components/music-head'
-	import search from '@/common/api.js'
+	import {search} from '@/common/api.js'
 	export default {
 		components:{
 			musichead:musichead
 		},
 		data() {
 			return {
-				searchKeyWords: ''
+				searchKeyWords: '',
+				searchHistory: [],
+				searchRes: []
 			};
 		},
 		methods:{
+			handleInput() {
+				console.log(this.searchKeyWords)
+			},
 			handleSearch() {
 				let searchKeyWords = this.searchKeyWords
+				this.searchKeyWords = ''
+				this.searchHistory.push(searchKeyWords)
 				search(searchKeyWords).then(res => {
 					console.log(res)
+					this.searchRes = res.songs
 				})
 			},
 			handleReSet() {
 				this.searchKeyWords = ''
 			},
 			handleClear() {
-				debugger
+				this.searchHistory = []
 			}
 		}
 	}

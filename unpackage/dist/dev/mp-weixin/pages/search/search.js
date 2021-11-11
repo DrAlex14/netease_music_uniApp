@@ -153,9 +153,14 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
+
 __webpack_require__(/*! @/common/iconfont.css */ 19);
 
-var _api = _interopRequireDefault(__webpack_require__(/*! @/common/api.js */ 20));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+var _api = __webpack_require__(/*! @/common/api.js */ 20); //
 //
 //
 //
@@ -177,7 +182,15 @@ var _api = _interopRequireDefault(__webpack_require__(/*! @/common/api.js */ 20)
 //
 //
 //
-var musichead = function musichead() {__webpack_require__.e(/*! require.ensure | components/music-head */ "components/music-head").then((function () {return resolve(__webpack_require__(/*! @/components/music-head */ 48));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { musichead: musichead }, data: function data() {return { searchKeyWords: '' };}, methods: { handleSearch: function handleSearch() {var searchKeyWords = this.searchKeyWords;(0, _api.default)(searchKeyWords).then(function (res) {console.log(res);});}, handleReSet: function handleReSet() {this.searchKeyWords = '';}, handleClear: function handleClear() {debugger;} } };exports.default = _default;
+//
+//
+//
+//
+//
+var musichead = function musichead() {__webpack_require__.e(/*! require.ensure | components/music-head */ "components/music-head").then((function () {return resolve(__webpack_require__(/*! @/components/music-head */ 48));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { musichead: musichead }, data: function data() {return { searchKeyWords: '', searchHistory: [], searchRes: [] };}, methods: { handleInput: function handleInput() {console.log(this.searchKeyWords);}, handleSearch: function handleSearch() {var _this = this;var searchKeyWords = this.searchKeyWords;this.searchKeyWords = '';this.searchHistory.push(searchKeyWords);(0, _api.search)(searchKeyWords).then(function (res) {console.log(res);_this.searchRes = res.songs;});}, handleReSet: function handleReSet() {this.searchKeyWords = '';},
+    handleClear: function handleClear() {
+      this.searchHistory = [];
+    } } };exports.default = _default;
 
 /***/ }),
 
