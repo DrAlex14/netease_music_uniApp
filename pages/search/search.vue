@@ -18,9 +18,15 @@
 		<view class="search-result">
 			<scroll-view scroll-y="true">
 				<view v-for="(item,index) in searchRes" :key="index">
-					<view class="">{{item.name}}-{{item.artists[0].name}}</view>
+					<view class="search-result-item">{{item.name}}-{{item.artists[0].name}}</view>
 				</view>
 			</scroll-view>							
+		</view>
+		<view class="search-hot">
+			<view class="search-hothead">热搜榜</view>
+			<view class="search-hotlist">
+				<view class="search-hotlist-item"></view>			
+			</view>
 		</view>
 	</view>
 </template>
@@ -81,16 +87,37 @@
 		}
 	}
 	.search-history{
+		font-size: 26rpx;
+		margin: 20rpx 30rpx 30rpx 30rpx;
 		.search-history-head{
 			display: flex;
-			margin: 20rpx 30rpx 30rpx 30rpx;
-			justify-content: space-around;
+			justify-content: space-between;
+			margin-bottom: 20rpx;
 			.history-title{
 				flex: 1;
 				font-weight: 600;
 				color: #4a4a37;
 			}
 		}		
+		.search-history-main{
+			display: flex;
+			flex-wrap: wrap;
+			text{
+				border-radius: 40rpx;
+				background-color: #f7f7f7;
+				padding: 16rpx 28rpx;
+				margin-right: 20rpx;
+				margin-bottom: 20rpx;
+			}
+		}
+	}
+	.search-result{
+		margin: 20rpx 30rpx 30rpx 30rpx;
+		background-color: #f7f7f7;
+		.search-result-item{
+			margin: 20rpx 20rpx;
+			font-weight: 600;
+		}
 	}
 }
 </style>
