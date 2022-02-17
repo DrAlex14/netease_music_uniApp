@@ -23,9 +23,15 @@
 			</scroll-view>							
 		</view>
 		<view class="search-hot">
-			<view class="search-hothead">热搜榜</view>
-			<view class="search-hotlist">
-				<view class="search-hotlist-item"></view>			
+			<view class="search-hot-head">热搜榜</view>
+			<view class="search-hot-list">
+				<view class="search-hot-list-item">
+					<view class="search-hot-top">1</view>
+					<view class="search-hot-word">
+						少年 <image src="../../static/dujia.png" mode="aspectFit"></image>
+					</view>
+					<view class="">少年这个词实在是太美好了</view>
+				</view>			
 			</view>
 		</view>
 	</view>
@@ -117,6 +123,42 @@
 		.search-result-item{
 			margin: 20rpx 20rpx;
 			font-weight: 600;
+		}
+	}
+	.search-hot{
+		margin: 0 30rpx;
+		font-size: 26rpx;
+		.search-hot-head{
+			margin-bottom: 58rpx;
+		}
+		.search-hot-list{
+			
+			.search-hot-list-item{
+				display: flex;
+				align-items: center;
+				margin-bottom: 58rpx;
+				.search-hot-top{
+					color: #fb2222;
+					width: 60rpx;
+					margin-left: 8rpx;
+					margin-bottom: 36rpx;
+				}
+				.search-hot-word{
+					flex: 1;
+					view:nth-child(0){
+						font-size: 30rpx;
+						color: black;
+					}
+					view:nth-child(1){
+						font-size: 26rpx;
+						color: #878787;
+					}
+					image{
+						width: 48rpx;
+						height: 22rpx;
+					}
+				}
+			}
 		}
 	}
 }
